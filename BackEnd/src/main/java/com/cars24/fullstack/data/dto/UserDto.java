@@ -11,5 +11,5 @@ public class UserDto {
     private String email;
     private String password;
     private boolean emailVerificationStatus;
-    private List<String> roles;  // Add this to store user roles
+    private List<String> roles;
 }
