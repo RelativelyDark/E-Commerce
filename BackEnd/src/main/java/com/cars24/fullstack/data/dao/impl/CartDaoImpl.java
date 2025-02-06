@@ -9,6 +9,7 @@ import com.cars24.fullstack.data.request.UpdateCartRequest;
 import com.cars24.fullstack.data.response.CreateCartResponse;
 import com.cars24.fullstack.data.response.DeleteCartResponse;
 import com.cars24.fullstack.data.response.GetCartResponse;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -57,16 +58,24 @@ public class CartDaoImpl {
         return resp;
     }
 
-    public List<CartEntity> getCart(GetCartRequest getCartRequest){
+    public List<GetCartResponse> getCart(GetCartRequest getCartRequest){
 
         String customerid = getCartRequest.getCustomerid();
         List<CartEntity> list = cartRepository.findByCustomerid(customerid);
+        List<GetCartResponse> resp = new ArrayList<>();
 
-        return list;
+        for(CartEntity c : list){
+            GetCartResponse gcr = new GetCartResponse();
+            BeanUtils.copyProperties(c,gcr);
+            resp.add(gcr);
+        }
+
+        return resp;
 
     }
 
     public String updateCart(UpdateCartRequest updateCartRequest){
+
         String Productid = updateCartRequest.getProductid();
         String Customerid = updateCartRequest.getCustomerid();
         CartEntity cartEntity = new CartEntity();

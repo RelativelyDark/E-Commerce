@@ -1,6 +1,7 @@
 package com.cars24.fullstack.advice;
 
 import com.cars24.fullstack.data.response.ApiResponse;
+import com.cars24.fullstack.exception.CartNotFoundException;
 import com.cars24.fullstack.exception.InvalidRequestException;
 import com.cars24.fullstack.exception.ProductNotFoundException;
 import com.cars24.fullstack.exception.UserServiceException;
@@ -129,4 +130,20 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiResponse);
     }
+
+    @ExceptionHandler(CartNotFoundException.class)
+    public ResponseEntity<ApiResponse> handleProductNotFound(CartNotFoundException exception) {
+        log.info("[handleCartNotFound]");
+
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setStatuscode(HttpStatus.NOT_FOUND.value());
+        apiResponse.setSuccess(false);
+        apiResponse.setMessage(exception.getMessage());
+        apiResponse.setService("AppCart " + HttpStatus.NOT_FOUND.value());
+        apiResponse.setData(null);
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiResponse);
+    }
+
+
 }

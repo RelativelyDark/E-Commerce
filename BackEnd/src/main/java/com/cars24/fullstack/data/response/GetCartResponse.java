@@ -5,5 +5,6 @@ import org.bson.types.ObjectId;
 
 @Data
 public class GetCartResponse {
-    private ObjectId _id;
+    private String productid;
+    private int quantity;
 }
