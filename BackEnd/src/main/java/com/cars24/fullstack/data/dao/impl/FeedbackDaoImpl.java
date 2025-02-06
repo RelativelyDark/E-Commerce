@@ -60,6 +60,7 @@ public class FeedbackDaoImpl implements FeedbackDao {
             FeedbackEntity entity = new FeedbackEntity();
             BeanUtils.copyProperties(feedbackDto, entity);
             entity.setId(id);
+            entity.setUserId(entity.getUserId());
             FeedbackEntity updatedEntity = feedbackRepository.save(entity);
             FeedbackDto responseDto = new FeedbackDto();
             BeanUtils.copyProperties(updatedEntity, responseDto);

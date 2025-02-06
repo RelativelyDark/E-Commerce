@@ -47,6 +47,8 @@ public class WebSecurity {
                         .requestMatchers(HttpMethod.PUT, "/products/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/products/**").hasRole("ADMIN")
 
+                        .requestMatchers("/feedback/**").authenticated()
+
                         // All other requests must be authenticated
                         .anyRequest().authenticated()
                 )
