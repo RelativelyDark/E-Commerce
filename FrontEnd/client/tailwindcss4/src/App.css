@@ -5,6 +5,14 @@
   text-align: center;
 }
 
+#footer {
+  position: relative;
+  height: 100px;
+  margin-top: -100px;
+  clear: both;
+  min-height: calc(100% - 69px);
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
