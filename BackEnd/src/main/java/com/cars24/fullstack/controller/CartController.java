@@ -9,6 +9,7 @@ import com.cars24.fullstack.data.response.CreateCartResponse;
 import com.cars24.fullstack.data.response.DeleteCartResponse;
 import com.cars24.fullstack.data.response.GetCartResponse;
 import com.cars24.fullstack.service.impl.CartServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("cart")
 @Service
+@Slf4j
 
 public class CartController {
 
@@ -36,7 +38,8 @@ public class CartController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CartEntity>> getCart(@RequestBody GetCartRequest getCartRequest){
+    public ResponseEntity<List<GetCartResponse>> getCart(@RequestBody GetCartRequest getCartRequest){
+        log.info("{}",getCartRequest);
         return ResponseEntity.ok().body(cartServiceImpl.getCart(getCartRequest));
     }
 
