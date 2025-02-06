@@ -63,6 +63,7 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
         }
 
         chain.doFilter(req, res);
+
     }
 
 
