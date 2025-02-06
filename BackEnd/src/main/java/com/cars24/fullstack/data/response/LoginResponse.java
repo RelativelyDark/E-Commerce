@@ -1,6 +1,10 @@
 package com.cars24.fullstack.data.response;
 
+import lombok.Data;
+
 import java.util.List;
+
+@Data
 
 public class LoginResponse {
     private String token;
@@ -13,15 +17,4 @@ public class LoginResponse {
         this.roles = roles;
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public List<String> getRoles() {
-        return roles;
-    }
 }

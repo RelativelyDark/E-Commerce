@@ -26,7 +26,6 @@ public class UserController {
     @Autowired
     UserService userService;
 
-
     @GetMapping(path = "/display/{id}")
     public GetUserResponse getUser(@PathVariable("id") String id){
 
@@ -40,7 +39,6 @@ public class UserController {
 
         return getUserResponse;
     }
-
 
     @PostMapping("/signup")
     public SignUpResponse createUser(@RequestBody SignUpRequest signUpRequest){
