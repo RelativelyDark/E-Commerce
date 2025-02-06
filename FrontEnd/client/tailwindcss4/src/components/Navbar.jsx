@@ -26,19 +26,19 @@ const Navbar = () => {
         <nav className="flex gap-4">
             <Link
                 to="/products"
-                className="font-mono font-bold text-lg bg-blue-200 text-black px-6 py-2 rounded-lg transition-all hover:bg-blue-600 shadow-md"
+                className="font-mono font-bold text-lg bg-blue-200 !text-black px-6 py-2 rounded-lg transition-all hover:bg-blue-600 shadow-md"
                 >
                 Products
             </Link>
           <Link
             to="/cart"
-            className="font-mono font-bold text-lg bg-blue-200 text-black px-6 py-2 rounded-lg transition-all hover:bg-blue-600 shadow-md"
+            className="font-mono font-bold text-lg bg-blue-200 !text-black px-6 py-2 rounded-lg transition-all hover:bg-blue-600 shadow-md"
           >
             Cart
           </Link>
           <Link
             to="/order"
-            className="font-mono font-bold text-lg bg-blue-200 text-black px-6 py-2 rounded-lg transition-all hover:bg-blue-600 shadow-md"
+            className="font-mono font-bold text-lg bg-blue-200 !text-black px-6 py-2 rounded-lg transition-all hover:bg-blue-600 shadow-md"
           >
             Orders
           </Link>

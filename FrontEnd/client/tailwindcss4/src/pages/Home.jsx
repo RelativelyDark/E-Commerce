@@ -1,9 +1,10 @@
 import React from 'react'
+import { Navbar, Footer, ProductCard } from '../components';
 
 const Home = () => {
   return (
-    <div>
-        <h1>Home</h1>
+    <div className='flex flex-col mt-24 mb-40'>
+      
     </div>
   )
 }
