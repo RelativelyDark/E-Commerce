@@ -36,12 +36,23 @@ public class WebSecurity {
         AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManager);
         authenticationFilter.setFilterProcessesUrl("/users/login");
 
-        http.csrf((csrf) -> csrf.disable())
-                .authorizeHttpRequests((authz) -> authz.requestMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll()
-                        .anyRequest().authenticated())
+//        http.csrf((csrf) -> csrf.disable())
+//                .authorizeHttpRequests((authz) -> authz.requestMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll()
+//                        .anyRequest().authenticated())
+//                .authenticationManager(authenticationManager)
+//                .addFilter(authenticationFilter)
+//                .addFilter(new AuthorizationFilter(authenticationManager));
+
+        http.csrf((csrf) -> csrf.disable())  // Disable CSRF protection globally
+                .authorizeHttpRequests((authz) -> authz
+                        .requestMatchers(HttpMethod.POST, "/feedback").authenticated() // Allow POST to /feedback only for authenticated users
+                        .requestMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll() // Allow public access to sign-up
+                        .anyRequest().authenticated() // Any other request requires authentication
+                )
                 .authenticationManager(authenticationManager)
                 .addFilter(authenticationFilter)
                 .addFilter(new AuthorizationFilter(authenticationManager));
+
 
         return http.build();
     }
