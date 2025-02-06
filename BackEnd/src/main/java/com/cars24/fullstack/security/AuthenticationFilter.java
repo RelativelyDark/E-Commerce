@@ -1,9 +1,7 @@
 package com.cars24.fullstack.security;
 
-import com.cars24.fullstack.SpringApplicationContext;
-import com.cars24.fullstack.data.dto.UserDto;
 import com.cars24.fullstack.data.request.LoginRequest;
-import com.cars24.fullstack.exception.UserServiceException;
+import com.cars24.fullstack.data.response.LoginResponse;
 import com.cars24.fullstack.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
@@ -22,51 +20,66 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     public AuthenticationFilter(AuthenticationManager authenticationManager) {
-        // Call the parent constructor with the authentication manager
         super(authenticationManager);
     }
 
+    // Modify this method to remove the IOException from the signature
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)
-            throws UserServiceException {
+    public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) {
         try {
-
+            // Parse credentials from request
             LoginRequest creds = new ObjectMapper().readValue(req.getInputStream(), LoginRequest.class);
 
+            // Return the authentication token
             return getAuthenticationManager().authenticate(
-                    new UsernamePasswordAuthenticationToken(creds.getEmail(), creds.getPassword(), new ArrayList<>()));
-
+                    new UsernamePasswordAuthenticationToken(creds.getEmail(), creds.getPassword(), new ArrayList<>())
+            );
         } catch (IOException e) {
-            throw new UserServiceException("Not able to login");
+            // Handle the exception internally (if you want to log or throw a custom exception)
+            throw new RuntimeException("Authentication failed", e);
         }
     }
 
     @Override
     protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
-                                            Authentication auth) throws UserServiceException {
+                                            Authentication auth) throws IOException {
 
-        // Generate JWT and add it to a Response Header
         byte[] secretKeyBytes = SecurityConstants.TOKEN_SECRET.getBytes();
         SecretKey secretKey = Keys.hmacShaKeyFor(secretKeyBytes);
         Instant now = Instant.now();
 
+        // Get logged-in username
         String userName = ((User) auth.getPrincipal()).getUsername();
 
+        // Fetch roles/authorities from authentication object
+        List<String> roles = auth.getAuthorities().stream()
+                .map(grantedAuthority -> grantedAuthority.getAuthority())
+                .toList();
+
+        // Debug log for checking the roles in the authentication
+        System.out.println("Roles assigned to user: " + roles);
+
+        // Generate JWT with roles
         String token = Jwts.builder()
                 .subject(userName)
+                .claim("roles", roles) // Add roles as claims
                 .expiration(Date.from(now.plusMillis(SecurityConstants.EXPIRATION_TIME)))
                 .issuedAt(Date.from(now))
                 .signWith(secretKey)
                 .compact();
 
-        UserService userService = (UserService) SpringApplicationContext.getBean("userServiceImpl");
-        UserDto userDto = userService.getUser(userName);
+        // Return token & user info in response body
+        res.setContentType("application/json");
+        res.setCharacterEncoding("UTF-8");
+        res.getWriter().write(new ObjectMapper().writeValueAsString(new LoginResponse(token, userName, roles)));
 
+        // Optional: Set headers for backward compatibility
         res.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
-        res.addHeader("UserId", userDto.getUserId());
+        res.addHeader("UserId", userName);
     }
 }

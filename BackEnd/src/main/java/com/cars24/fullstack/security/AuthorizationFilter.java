@@ -10,12 +10,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authorization.AuthorizationDeniedException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.crypto.SecretKey;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class AuthorizationFilter extends BasicAuthenticationFilter {
 
@@ -36,9 +40,31 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
         }
 
         UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        if (authentication != null) {
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
+
+        // Log authentication details
+        System.out.println("Authentication: " + SecurityContextHolder.getContext().getAuthentication());
+
+        // Check if the user is trying to access restricted endpoints
+        if (authentication != null) {
+            String requestURI = req.getRequestURI();
+
+            // Check if the user has the necessary roles for restricted endpoints
+            if (requestURI.contains("/products") && !authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+                // Log for debugging
+                System.out.println("Access denied for user with roles: " + authentication.getAuthorities());
+
+                // Throwing custom exception for unauthorized access
+                throw new AuthorizationDeniedException("Access Denied: You do not have the necessary permissions.");
+            }
+        }
+
         chain.doFilter(req, res);
     }
+
 
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
 
@@ -58,14 +84,27 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
                 .build();
 
         Claims claims = parser.parseSignedClaims(token).getPayload();
-        String subject = (String) claims.get("sub");
 
-        if (subject == null) {
+        // Extract username and roles from JWT
+        String username = claims.getSubject();
+        List<String> roles = claims.get("roles", List.class);
+
+        if (username == null) {
             return null;
         }
 
-        return new UsernamePasswordAuthenticationToken(subject, null, new ArrayList<>());
+        // Log the roles to ensure they're extracted correctly
+        System.out.println("Roles extracted from JWT: " + roles);
 
+        List<GrantedAuthority> authorities = roles != null
+                ? roles.stream()
+                .map(role -> role.startsWith("ROLE_") ? new SimpleGrantedAuthority(role) : new SimpleGrantedAuthority("ROLE_" + role))
+                .collect(Collectors.toList())
+                : List.of();
+
+        // Log authorities assigned
+        System.out.println("Authorities assigned: " + authorities);
+
+        return new UsernamePasswordAuthenticationToken(username, null, authorities);
     }
-
 }
