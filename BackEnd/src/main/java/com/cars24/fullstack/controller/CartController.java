@@ -1,9 +1,7 @@
 package com.cars24.fullstack.controller;
 
-import com.cars24.fullstack.data.entity.CartEntity;
 import com.cars24.fullstack.data.request.CreateCartRequest;
 import com.cars24.fullstack.data.request.DeleteCartRequest;
-import com.cars24.fullstack.data.request.GetCartRequest;
 import com.cars24.fullstack.data.request.UpdateCartRequest;
 import com.cars24.fullstack.data.response.CreateCartResponse;
 import com.cars24.fullstack.data.response.DeleteCartResponse;
@@ -37,11 +35,18 @@ public class CartController {
         return cartServiceImpl.deleteCart(deleteCartRequest);
     }
 
-    @GetMapping
-    public ResponseEntity<List<GetCartResponse>> getCart(@RequestBody GetCartRequest getCartRequest){
-        log.info("{}",getCartRequest);
-        return ResponseEntity.ok().body(cartServiceImpl.getCart(getCartRequest));
+//    @GetMapping
+//    public ResponseEntity<List<GetCartResponse>> getCart(@RequestBody GetCartRequest getCartRequest){
+//        log.info("{}",getCartRequest);
+//        return ResponseEntity.ok().body(cartServiceImpl.getCart(getCartRequest));
+//    }
+
+    @GetMapping("/{customerid}")
+    public ResponseEntity<List<GetCartResponse>> getCart(@PathVariable String customerid) {
+        log.info("Fetching cart for customer: {}", customerid);
+        return ResponseEntity.ok().body(cartServiceImpl.getCart(customerid));
     }
+
 
     @PutMapping
     public String updateCart(@RequestBody UpdateCartRequest updateCartRequest){

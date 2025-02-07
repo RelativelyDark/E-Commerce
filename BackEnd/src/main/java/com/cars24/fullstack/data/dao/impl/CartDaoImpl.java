@@ -58,9 +58,9 @@ public class CartDaoImpl {
         return resp;
     }
 
-    public List<GetCartResponse> getCart(GetCartRequest getCartRequest){
+    public List<GetCartResponse> getCart(String customerid){
 
-        String customerid = getCartRequest.getCustomerid();
+        //String customerid = getCartRequest.getCustomerid();
         List<CartEntity> list = cartRepository.findByCustomerid(customerid);
         List<GetCartResponse> resp = new ArrayList<>();
 

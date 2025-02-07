@@ -46,14 +46,14 @@ public class CartServiceImpl {
         return cartDaoImpl.deleteCart(deleteCartRequest);
     }
 
-    public List<GetCartResponse> getCart(GetCartRequest getCartRequest){
+    public List<GetCartResponse> getCart(String customerid){
 
           log.info("{}",cartRepository.findByCustomerid("980890"));
 //        if(!cartRepository.existsByCustomerid(getCartRequest.getCustomerid())){
 //            throw new CartNotFoundException("No cart exists for this customer ");
 //        }
 
-        return cartDaoImpl.getCart(getCartRequest);
+        return cartDaoImpl.getCart(customerid);
     }
 
     public String updateCart(UpdateCartRequest updateCartRequest){
