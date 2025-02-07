@@ -1,17 +1,22 @@
-import React from 'react' 
+import React from "react";
 
-const HomeCard = ({product}) => {
-    return (
-        <div className="bg-black rounded-2xl shadow-lg p-4 flex flex-col items-center">
-          <img
-            src={product.image}
-            alt={product.name}
-            className="w-full h-40 object-cover rounded-lg"
-          />
-          <h3 className="text-lg text-red-200 font-semibold mt-2">{product.name}</h3>
-          <p className="text-yellow-600 text-sm">${product.price}</p>
-        </div>
-      );
-}
+const HomeCard = ({ product }) => {
+  return (
+    <div className="bg-white shadow-lg rounded-2xl overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl">
+      <img
+        src={product.image}
+        alt={product.name}
+        className="w-full h-60 object-cover"
+      />
+      <div className="p-4">
+        <h3 className="text-lg font-semibold text-gray-900">{product.name}</h3>
+        <p className="text-gray-600 text-sm mt-1">₹{product.price}</p>
+        <button className="mt-3 w-full bg-blue-600 text-black py-2 rounded-lg text-sm font-medium transition hover:bg-blue-700">
+          Add to Cart
+        </button>
+      </div>
+    </div>
+  );
+};
 
-export default HomeCard
+export default HomeCard;
