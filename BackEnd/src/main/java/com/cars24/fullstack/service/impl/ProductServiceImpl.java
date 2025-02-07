@@ -60,11 +60,12 @@ public class ProductServiceImpl implements ProductService {
                 request.getImage(),
                 request.getSeller(),
                 request.getPrice(),
-                request.getDescription()
+                request.getDescription(),
+                request.getCategory()  // Set category from request
         );
+
         ProductEntity savedProduct = productDao.addProduct(product);
 
-        // Create ApiResponse for added product
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setStatuscode(HttpStatus.CREATED.value());
         apiResponse.setSuccess(true);
@@ -75,6 +76,7 @@ public class ProductServiceImpl implements ProductService {
         return apiResponse;
     }
 
+
     // Update a product by ID
     @Override
     public ApiResponse updateProduct(String id, ProductRequest request) {
@@ -84,11 +86,12 @@ public class ProductServiceImpl implements ProductService {
                 request.getImage(),
                 request.getSeller(),
                 request.getPrice(),
-                request.getDescription()
+                request.getDescription(),
+                request.getCategory()  // Include category
         );
+
         ProductEntity updatedProduct = productDao.updateProduct(id, product);
 
-        // Create ApiResponse for updated product
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setStatuscode(HttpStatus.OK.value());
         apiResponse.setSuccess(true);
@@ -98,6 +101,7 @@ public class ProductServiceImpl implements ProductService {
 
         return apiResponse;
     }
+
 
     // Delete a product by ID
     @Override

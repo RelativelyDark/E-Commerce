@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Navbar, Footer } from "./components";
+import { Navbar } from "./components";
 import { Home, Profile, Cart, Order, Products } from "./pages";
 import ProductDetails from "./pages/ProductDetails"; // Import ProductDetails
 
@@ -11,6 +11,7 @@ export default function App() {
       <Navbar />
 
       <ToastContainer position="bottom-right" />
+
 
       <main className="flex-grow">
         <Routes>
@@ -24,6 +25,7 @@ export default function App() {
       </main>
 
       <Footer />
+
     </BrowserRouter>
   );
 }
