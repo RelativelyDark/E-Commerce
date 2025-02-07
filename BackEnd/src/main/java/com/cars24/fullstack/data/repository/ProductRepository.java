@@ -8,5 +8,6 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends MongoRepository<ProductEntity, String> {
-    List<ProductEntity> findBySeller(String seller); // Example custom query to find products by seller
+    List<ProductEntity> findBySeller(String seller);
+    List<ProductEntity> findByCategory(String category);
 }

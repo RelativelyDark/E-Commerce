@@ -11,4 +11,6 @@ public interface ProductDao {
     ProductEntity addProduct(ProductEntity productEntity);
     ProductEntity updateProduct(String id, ProductEntity productEntity);
     void deleteProduct(String id);
+    List<ProductEntity> getProductByCategory(String category);
+    public List<String> getProductCategoryList();
 }

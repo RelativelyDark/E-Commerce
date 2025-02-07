@@ -3,12 +3,12 @@ package com.cars24.fullstack.data.dao.impl;
 import com.cars24.fullstack.data.dao.ProductDao;
 import com.cars24.fullstack.data.entity.ProductEntity;
 import com.cars24.fullstack.data.repository.ProductRepository;
+import com.cars24.fullstack.data.response.ApiResponse;
 import com.cars24.fullstack.exception.ProductNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Repository
 @RequiredArgsConstructor
@@ -19,6 +19,31 @@ public class ProductDaoImpl implements ProductDao {
     @Override
     public List<ProductEntity> getAllProducts() {
         return productRepository.findAll();
+    }
+
+    public List<ProductEntity> getProductByCategory(String category){
+        return productRepository.findByCategory(category);
+    }
+
+    public List<String> getProductCategoryList(){
+
+        List<ProductEntity> lis = new ArrayList<>();
+        lis = productRepository.findAll();
+
+        Set<String> s = new HashSet<>();
+
+        for(ProductEntity  l : lis){
+            s.add(String.valueOf(l.getCategory()));
+        }
+
+        List<String> cat = new ArrayList<>();
+
+        for(String str : s){
+            cat.add(str);
+        }
+
+        return cat;
+
     }
 
     @Override
@@ -46,4 +71,5 @@ public class ProductDaoImpl implements ProductDao {
                 .orElseThrow(() -> new ProductNotFoundException("Product not found"));
         productRepository.delete(productEntity);
     }
+
 }

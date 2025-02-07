@@ -9,6 +9,7 @@ import com.cars24.fullstack.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -32,6 +33,34 @@ public class ProductServiceImpl implements ProductService {
         apiResponse.setData(products);
 
         return apiResponse;
+    }
+
+    public ApiResponse getProductByCategory(String category){
+        List<ProductEntity> products = productDao.getProductByCategory(category);
+
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setStatuscode(HttpStatus.OK.value());
+        apiResponse.setSuccess(true);
+        apiResponse.setMessage("All products retrieved successfully");
+        apiResponse.setService("AppProduct " + HttpStatus.OK.value());
+        apiResponse.setData(products);
+
+        return apiResponse;
+
+    }
+
+    public ApiResponse getProductCategoryList(){
+        List<String> products = productDao.getProductCategoryList();
+
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setStatuscode(HttpStatus.OK.value());
+        apiResponse.setSuccess(true);
+        apiResponse.setMessage("All products retrieved successfully");
+        apiResponse.setService("AppProduct " + HttpStatus.OK.value());
+        apiResponse.setData(products);
+
+        return apiResponse;
+
     }
 
     // Get a single product by ID

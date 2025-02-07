@@ -55,6 +55,8 @@ public class CartDaoImpl {
         resp.setProductid(cartEntity.getProductid());
         resp.setQuantity(cartEntity.getQuantity());
 
+        cartRepository.deleteById(cartEntity.get_id());
+
         return resp;
     }
 
@@ -83,6 +85,8 @@ public class CartDaoImpl {
         cartEntity = cartRepository.findByProductidAndCustomerid(Productid, Customerid);
 
         cartEntity.setQuantity(updateCartRequest.getQuantity());
+
+        cartRepository.save(cartEntity);
 
         return "Successfully updated quantity to " + cartEntity.getQuantity();
 
