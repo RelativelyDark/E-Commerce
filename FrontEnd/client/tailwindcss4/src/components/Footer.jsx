@@ -12,11 +12,11 @@ const Footer = () => {
       </div>
       
 
-      <p className="text-orange-400 font-bold">
+      <p className="!text-white-400 font-bold">
         © All rights reserved | Powered by <span className="text-blue-400">No Excuse</span>
       </p>
     </footer>
   );
 };
 
-
+export default Footer;
