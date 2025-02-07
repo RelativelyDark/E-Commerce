@@ -15,7 +15,7 @@ import java.util.Optional;
 @RequestMapping("/feedback")
 @RequiredArgsConstructor
 @Slf4j
-@CrossOrigin("*")
+
 public class FeedbackController {
 
     @Autowired
