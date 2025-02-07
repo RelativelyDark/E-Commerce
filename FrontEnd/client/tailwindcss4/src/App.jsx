@@ -27,7 +27,7 @@ export default function App() {
               <Navbar />
               <main className="flex-grow">
                 <Routes>
-                  <Route path="/" element={<Navigate to="/register" />} /> {/* Redirect to Register first */}
+                  <Route path="/" element={<Home />} /> {/* Redirect to Register first */}
                   <Route path="/products" element={<Products />} />
                   <Route path="/product-details/:id" element={<ProductDetails />} />
                   <Route path="/cart" element={<Cart />} />

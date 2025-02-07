@@ -14,11 +14,11 @@ const Login = () => {
         setLoading(true);
         try {
             const response = await axios.post("http://localhost:8080/users/login", values);
-            localStorage.setItem("token", response.data.token);
+            localStorage.setItem("Authorization", response.data.token);
             localStorage.setItem("userId", response.data.userId);
             localStorage.setItem("roles", JSON.stringify(response.data.roles));
             message.success("Login successful!");
-            navigate("/dashboard");
+            navigate("/");
         } catch (error) {
             message.error("Login failed. Please check your credentials.");
         } finally {
