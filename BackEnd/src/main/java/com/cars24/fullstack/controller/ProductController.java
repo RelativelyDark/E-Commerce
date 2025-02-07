@@ -55,4 +55,21 @@ public class ProductController {
         ApiResponse response = productService.getAllProducts();
         return ResponseEntity.ok(response);
     }
+
+    @PreAuthorize("hasAnyAuthority('ROLE_CUSTOMER', 'ROLE_ADMIN')")
+    @GetMapping("/{category}")
+    public ResponseEntity<ApiResponse> getProductByCategory(@PathVariable String category){
+        ApiResponse response = productService.getProductByCategory(category);
+        return ResponseEntity.ok(response);
+    }
+
+
+    @PreAuthorize("hasAnyAuthority('ROLE_CUSTOMER', 'ROLE_ADMIN')")
+    @GetMapping("/categories")
+    public ResponseEntity<ApiResponse> getProductCategoryList(){
+        ApiResponse response = productService.getProductCategoryList();
+        return ResponseEntity.ok(response);
+    }
+
+
 }

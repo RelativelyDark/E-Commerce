@@ -12,4 +12,6 @@ public interface ProductService {
     ApiResponse addProduct(ProductRequest productRequest);
     ApiResponse updateProduct(String id, ProductRequest productRequest);
     ApiResponse deleteProduct(String id);
+    ApiResponse getProductByCategory(String category);
+    ApiResponse getProductCategoryList();
 }
