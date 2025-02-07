@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+.slick-prev:before, .slick-next:before {
+  color: black !important;
+}
+.slick-slide > div {
+  display: flex;
+  justify-content: center;
+}
+
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
