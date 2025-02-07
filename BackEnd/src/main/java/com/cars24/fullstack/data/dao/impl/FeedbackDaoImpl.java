@@ -6,7 +6,7 @@ import com.cars24.fullstack.data.entity.FeedbackEntity;
 import com.cars24.fullstack.data.repository.FeedbackRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
