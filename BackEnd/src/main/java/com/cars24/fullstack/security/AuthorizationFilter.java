@@ -46,7 +46,7 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
         }
 
         // Log authentication details
-        System.out.println("Authentication: " + SecurityContextHolder.getContext().getAuthentication());
+//        System.out.println("Authentication: " + SecurityContextHolder.getContext().getAuthentication());
 
         // Check if the user is trying to access restricted endpoints
         if (authentication != null) {
