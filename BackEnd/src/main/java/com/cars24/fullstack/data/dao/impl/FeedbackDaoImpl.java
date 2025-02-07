@@ -6,7 +6,7 @@ import com.cars24.fullstack.data.entity.FeedbackEntity;
 import com.cars24.fullstack.data.repository.FeedbackRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -60,6 +60,7 @@ public class FeedbackDaoImpl implements FeedbackDao {
             FeedbackEntity entity = new FeedbackEntity();
             BeanUtils.copyProperties(feedbackDto, entity);
             entity.setId(id);
+            entity.setUserId(entity.getUserId());
             FeedbackEntity updatedEntity = feedbackRepository.save(entity);
             FeedbackDto responseDto = new FeedbackDto();
             BeanUtils.copyProperties(updatedEntity, responseDto);
