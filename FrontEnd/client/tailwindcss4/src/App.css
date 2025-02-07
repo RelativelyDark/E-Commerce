@@ -48,3 +48,11 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Optional Toastify Overrides */
+.Toastify__toast--success {
+  background-color: #28a745 !important;
+}
+.Toastify__toast--info {
+  background-color: #17a2b8 !important;
+}
