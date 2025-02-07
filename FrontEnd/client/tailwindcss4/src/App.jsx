@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Navbar } from "./components";
+import { Navbar, Footer } from "./components";
 import { Home, Profile, Cart, Order, Products } from "./pages";
 import ProductDetails from "./pages/ProductDetails"; // Import ProductDetails
 
