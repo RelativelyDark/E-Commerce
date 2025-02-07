@@ -1,9 +1,10 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="w-full bg-gray-600 !text-white py-6 px-4 text-center mt-auto">
+    <footer className="w-full bg-gray-600 !text-white py-6 px-24 text-center mt-auto">
       <div className="flex justify-center gap-8 ml-106 mr-106 mb-4">
         <Link to="/" className="hover:text-blue-400">Home</Link>
         <Link to="/about" className="hover:text-blue-400">About Us</Link>
@@ -20,3 +21,4 @@ const Footer = () => {
 };
 
 export default Footer;
+
