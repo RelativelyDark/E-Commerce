@@ -126,7 +126,7 @@ import CartCard from "../components/CartCard";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
-  const customerId = "3435"; 
+  const customerId = localStorage.getItem("userId"); 
 
   const fetchCartItems = async () => {
     const token = localStorage.getItem("Authorization"); 

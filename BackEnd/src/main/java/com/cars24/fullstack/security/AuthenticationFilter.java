@@ -1,5 +1,7 @@
 package com.cars24.fullstack.security;
 
+import com.cars24.fullstack.SpringApplicationContext;
+import com.cars24.fullstack.data.dto.UserDto;
 import com.cars24.fullstack.data.request.LoginRequest;
 import com.cars24.fullstack.data.response.LoginResponse;
 import com.cars24.fullstack.service.UserService;
@@ -73,13 +75,17 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .signWith(secretKey)
                 .compact();
 
+        UserService userService = (UserService) SpringApplicationContext.getBean("userServiceImpl");
+        UserDto userDto = userService.getUser(userName);
+
         // Return token & user info in response body
         res.setContentType("application/json");
         res.setCharacterEncoding("UTF-8");
-        res.getWriter().write(new ObjectMapper().writeValueAsString(new LoginResponse(token, userName, roles)));
+        res.getWriter().write(new ObjectMapper().writeValueAsString(new LoginResponse(token, userDto.getUserId(), roles)));
+
 
         // Optional: Set headers for backward compatibility
         res.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
-        res.addHeader("UserId", userName);
+        res.addHeader("UserId", userDto.getUserId());
     }
 }
