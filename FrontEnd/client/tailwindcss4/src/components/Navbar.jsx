@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 const Navbar = () => {
   return (
-    <div className="bg-white shadow-md py-4 px-6 flex justify-between items-center fixed top-0 w-full z-50">
+    <div className="bg-amber-300 py-4 px-6 flex justify-between items-center fixed top-0 w-full z-50">
         <Link to="/" className="flex items-center gap-2">
           <img
             src={noExcuseLogo}
@@ -18,27 +18,27 @@ const Navbar = () => {
         <div className="flex flex-grow justify-center mx-4">
         <input
           type="text"
-          placeholder="Search..."
-          className="w-[300px] px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
+          placeholder="Search by category"
+          className="w-[400px] px-4 py-2 rounded-full border border-black focus:ring-2 focus:ring-orange-400"
         />
       </div>
 
         <nav className="flex gap-4">
             <Link
                 to="/products"
-                className="font-mono font-bold text-lg bg-blue-200 !text-black px-6 py-2 rounded-lg transition-all hover:bg-blue-600 shadow-md"
+                className="font-mono font-bold text-xl !text-black px-6 py-2"
                 >
-                Products
+                Shop
             </Link>
           <Link
             to="/cart"
-            className="font-mono font-bold text-lg bg-blue-200 !text-black px-6 py-2 rounded-lg transition-all hover:bg-blue-600 shadow-md"
+            className="font-mono font-bold text-xl !text-black px-6 py-2"
           >
             Cart
           </Link>
           <Link
             to="/order"
-            className="font-mono font-bold text-lg bg-blue-200 !text-black px-6 py-2 rounded-lg transition-all hover:bg-blue-600 shadow-md"
+            className="font-mono font-bold text-xl !text-black px-6 py-2"
           >
             Orders
           </Link>
@@ -48,7 +48,7 @@ const Navbar = () => {
             <img
                 src={profileIcon}
                 alt="Logo"
-                className="rounded-lg w-12 h-12 object-cover"
+                className="rounded-full w-12 h-12 object-cover"
             />
           </Link> 
 

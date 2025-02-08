@@ -1,6 +1,7 @@
 import { React, useState, useEffect } from 'react'
+import { Link } from 'react-router-dom';
 import { Carousel, HomeCard } from '../components';
-import { iqoo, tecno } from '../assets';
+import { iphone, iqoo, tecno } from '../assets';
 
 
 const Home = () => {
@@ -87,18 +88,42 @@ const Home = () => {
   if (error) return <p className="text-center mt-10 text-red-500">Error: {error}</p>;
 
   return (
-    <div className="flex flex-col mt-24 px-8">
-      {Object.entries(productsByCategory).map(([category, products]) => (
-        <div key={category} className="mb-12">
-          <h2 className="text-3xl font-bold mb-4 text-gray-800">{category}</h2>
-          {products.length > 0 ? (
-            <Carousel products={products} />
-          ) : (
-            <p className="text-gray-600">No products available.</p>
-          )}
+    <div>
+      <div className="flex flex-col bg-black rounded-3xl md:flex-row items-center justify-between mt-20 mr-10 ml-10 py-4">
+        <div className="space-y-4 px-20 py-20">
+          <h1 className="text-5xl text-orange-400">
+            iPhone 16
+          </h1>
+          <h4 className="text-gray-500 text-8xl font-sans">SMARTPHONE</h4>
+          <h3 className="py-4 text-3xl text-white mb-10">Think different</h3>
+          <Link
+            to="/products"
+            className="mt-20 font-sans font-bold text-lg bg-orange-400 !text-black px-4 py-2 rounded-lg transition-all hover:bg-amber-500 shadow-md"
+          >
+            Shop now
+          </Link>
         </div>
-      ))}
+        <img
+          src={iphone}
+          alt="iphone16"
+          className="w-96"
+        />
+      </div>
+
+      <div className="flex flex-col mt-24 px-8">
+        {Object.entries(productsByCategory).map(([category, products]) => (
+          <div key={category} className="mb-12">
+            <h2 className="text-3xl font-bold mb-4 text-gray-800">{category}</h2>
+            {products.length > 0 ? (
+              <Carousel products={products} />
+            ) : (
+              <p className="text-gray-600">No products available.</p>
+            )}
+          </div>
+        ))}
+      </div>
     </div>
+
   );
 };
 
