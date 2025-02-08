@@ -89,7 +89,7 @@ const Home = () => {
 
   return (
     <div>
-      <div className="flex flex-col bg-black rounded-3xl md:flex-row items-center justify-between mt-20 mr-10 ml-10 py-4">
+      <div className="flex flex-col bg-black rounded-3xl md:flex-row items-center justify-between mt-20 mr-16 ml-16  py-4">
         <div className="space-y-4 px-20 py-20">
           <h1 className="text-5xl text-orange-400">
             iPhone 16
@@ -106,7 +106,7 @@ const Home = () => {
         <img
           src={iphone}
           alt="iphone16"
-          className="w-96"
+          className="w-88"
         />
       </div>
 
