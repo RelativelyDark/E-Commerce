@@ -1,10 +1,8 @@
 import React from "react";
 import Slider from "react-slick";
 import {HomeCard} from "../components"
-
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
 
 const Carousel = ({ products }) => {
   const settings = {
