@@ -61,7 +61,7 @@ public class UserController {
     public ResponseEntity<UserDto> updateUser(@PathVariable("id") String id, @RequestBody UserUpdateRequest userUpdateRequest){
 
         UserDto userDto = new UserDto();
-
+        System.out.println(userUpdateRequest);
         UserDto updatedUser = userService.updateUser(id, userUpdateRequest);
 
         return ResponseEntity.ok().body(updatedUser);

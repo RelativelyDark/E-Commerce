@@ -10,6 +10,8 @@ public class UserDto {
     private String lastName;
     private String email;
     private String password;
+    private String city;
+    private String phone;
     private boolean emailVerificationStatus;
     private List<String> roles;
 }
