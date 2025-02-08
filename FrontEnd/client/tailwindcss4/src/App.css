@@ -56,3 +56,10 @@
 .Toastify__toast--info {
   background-color: #17a2b8 !important;
 }
+
+.text-gold {
+  color: gold;
+}
+.text-gray-800 {
+  color: #1a202c; /* Default gray */
+}

@@ -28,8 +28,6 @@ public class UserEntity implements Serializable {
     @Indexed(unique = true)
     private String userId = UUID.randomUUID().toString();
 
-
-
     @Length(max = 20, min = 5, message = "Length should be 5-20")
     private String firstName;
 
@@ -41,9 +39,14 @@ public class UserEntity implements Serializable {
     @Indexed(unique = true)
     private String email;
 
-
     @NotNull(message = "Password cannot be empty")
     private String password;
+
+    @NotNull(message = "Phone number shouldnt be empty")
+    private String phone;
+
+    @NotNull(message = "City cannot be empty")
+    private String city;
 
     private String encryptedPassword;
 
