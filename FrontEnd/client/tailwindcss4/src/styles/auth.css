@@ -6,7 +6,7 @@
   justify-content: center;
   min-height: 100vh; /* Use min-height to handle content overflow */
   width: 100vw; /* Ensure it takes full width */
-  background: #f3f4f6;
+  background-color: #fcd34d; /* Exact amber-300 color */
   padding: 1rem; /* Add padding for better spacing on smaller screens */
   box-sizing: border-box; /* Ensure padding doesn't overflow */
 }

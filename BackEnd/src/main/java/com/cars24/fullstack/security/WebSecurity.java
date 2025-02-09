@@ -31,32 +31,25 @@ public class WebSecurity {
 
     @Bean
     SecurityFilterChain configure(HttpSecurity http) throws Exception {
-        // Configure AuthenticationManagerBuilder
         AuthenticationManagerBuilder authenticationManagerBuilder = http
                 .getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
 
         AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
 
-        // Customize Login URL path
         AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManager);
         authenticationFilter.setFilterProcessesUrl("/users/login");
 
         http.csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Enable CORS
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // ✅ Enable CORS globally
                 .authorizeHttpRequests(authz -> authz
-                        // Public endpoints
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // ✅ Allow OPTIONS for CORS preflight
                         .requestMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll()
                         .requestMatchers(HttpMethod.GET, "/products").permitAll()
-
-                        // Admin-only endpoints
                         .requestMatchers(HttpMethod.POST, "/products/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/products/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/products/**").hasRole("ADMIN")
-
                         .requestMatchers("/feedback/**").authenticated()
-
-                        // All other requests must be authenticated
                         .anyRequest().authenticated()
                 )
                 .authenticationManager(authenticationManager)
@@ -66,18 +59,17 @@ public class WebSecurity {
         return http.build();
     }
 
-    // CORS Configuration
+    //Fixed CORS Configuration
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:5173")); // Frontend origin
+        configuration.setAllowedOrigins(List.of("http://localhost:5174")); // ✅ Frontend allowed
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
-        configuration.setAllowCredentials(true);
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Access-Control-Allow-Origin"));
+        configuration.setAllowCredentials(true); // ✅ Important if using authentication
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
 }
