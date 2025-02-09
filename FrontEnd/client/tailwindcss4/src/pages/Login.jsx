@@ -18,12 +18,12 @@ const Login = () => {
   const handleLogin = async (values) => {
     setLoading(true);
     try {
-      console.log("Sending Login Data:", values); // Debugging Log
+      console.log("Sending Login Data:", values); 
       const response = await axios.post("http://localhost:8080/users/login", values, {
         headers: { "Content-Type": "application/json" },
       });
 
-      console.log("Login Response:", response.data); // Debugging Log
+      console.log("Login Response:", response.data); 
 
       if (response.status === 200) {
         message.success("Login successful! Redirecting...");
