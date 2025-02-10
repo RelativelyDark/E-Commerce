@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { Card, Form, Input, Typography, Button, message, Row, Col } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import axios from "axios";
 import loginImage from "../assets/noExcuseLogo.jpg";
-import "../styles/auth.css";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 30 },
@@ -14,90 +12,92 @@ const fadeIn = {
 const Login = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({ email: "", password: "" });
 
-  const handleLogin = async (values) => {
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setLoading(true);
     try {
-      console.log("Sending Login Data:", values); 
-      const response = await axios.post("http://localhost:8080/users/login", values, {
+      const response = await axios.post("http://localhost:8080/users/login", formData, {
         headers: { "Content-Type": "application/json" },
       });
 
-      console.log("Login Response:", response.data); 
-
       if (response.status === 200) {
-        message.success("Login successful! Redirecting...");
+        alert("Login successful! Redirecting...");
         setTimeout(() => navigate("/"), 2000);
       } else {
         throw new Error(response.data.message || "Login failed.");
       }
     } catch (error) {
-      console.error("Login Error:", error);
-      message.error(error.response?.data?.message || "Login failed. Please try again.");
+      alert(error.response?.data?.message || "Login failed. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <motion.div initial="hidden" animate="visible" variants={fadeIn} className="auth-container">
-      <Card className="form-container">
-        <Row gutter={[24, 24]} align="middle">
-          {/* Image on the Left */}
-          <Col xs={24} md={12} className="image-section">
+    <motion.div initial="hidden" animate="visible" variants={fadeIn} className="flex items-center justify-center h-screen w-screen bg-amber-300 p-5">
+      <div className="bg-white p-8 rounded-lg shadow-lg max-w-4xl w-full">
+        <div className="flex flex-wrap items-center">
+          <div className="w-full md:w-1/2 flex justify-center">
             <motion.img
               src={loginImage}
-              className="auth-image"
               alt="Login"
+              className="w-full max-w-sm rounded-lg"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
             />
-          </Col>
+          </div>
 
-          {/* Form on the Right */}
-          <Col xs={24} md={12}>
-            <div className="form-section">
-              <Typography.Title level={3} className="title">Sign In</Typography.Title>
-              <Typography.Text type="secondary" className="slogan">Welcome back! Please log in.</Typography.Text>
-              <Form layout="vertical" onFinish={handleLogin} autoComplete="off">
-                <Form.Item
-                  label="Email"
+          <div className="w-full md:w-1/2 p-4">
+            <h3 className="text-center text-2xl font-semibold">Sign In</h3>
+            <p className="text-center text-gray-600 mb-4">Welcome back! Please log in.</p>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block text-gray-700">Email</label>
+                <input
+                  type="email"
                   name="email"
-                  rules={[
-                    { required: true, message: "Email is required!" },
-                    { type: "email", message: "Enter a valid email address!" },
-                  ]}
-                >
-                  <Input size="large" placeholder="example@mail.com" />
-                </Form.Item>
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full p-2 border border-gray-300 rounded-lg"
+                  placeholder="example@mail.com"
+                  required
+                />
+              </div>
 
-                <Form.Item
-                  label="Password"
+              <div>
+                <label className="block text-gray-700">Password</label>
+                <input
+                  type="password"
                   name="password"
-                  rules={[{ required: true, message: "Password is required!" }]}
-                >
-                  <Input.Password size="large" placeholder="********" />
-                </Form.Item>
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="w-full p-2 border border-gray-300 rounded-lg"
+                  placeholder="********"
+                  required
+                />
+              </div>
 
-                <Form.Item>
-                  <Button htmlType="submit" size="large" className="btn" loading={loading} block>
-                    Log In
-                  </Button>
-                </Form.Item>
-
-                {/* 👇 Sign-Up Link at Bottom */}
-                <Typography.Text className="text-center">
-                  Don't have an account?{" "}
-                  <Link to="/register">
-                    <Button type="link">Sign Up</Button>
-                  </Link>
-                </Typography.Text>
-              </Form>
-            </div>
-          </Col>
-        </Row>
-      </Card>
+              <button
+                type="submit"
+                className="w-full bg-blue-500 text-black p-2 rounded-lg hover:bg-blue-600 transition"
+                disabled={loading}
+              >
+                {loading ? "Logging in..." : "Log In"}
+              </button>
+            </form>
+            <p className="text-center mt-4">
+              Don't have an account? <Link to="/register" className="text-blue-500 hover:underline">Sign Up</Link>
+            </p>
+          </div>
+        </div>
+      </div>
     </motion.div>
   );
 };

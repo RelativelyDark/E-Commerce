@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "antd/dist/reset.css"; /* Ensures Tailwind classes work properly */
 
 .slick-prev:before, .slick-next:before {
   color: black !important;

@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { Card, Form, Input, Typography, Button, message, Row, Col } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import axios from "axios";
 import registerImage from "../assets/noExcuseLogo.jpg";
-import "../styles/auth.css";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 30 },
@@ -31,130 +29,77 @@ const Register = () => {
       console.log("Register Response:", response.data);
 
       if (response.status === 201) {
-        message.success(response.data.message || "Account created successfully! Please log in.");
+        alert(response.data.message || "Account created successfully! Please log in.");
         setTimeout(() => navigate("/login"), 1000);
       } else {
         throw new Error(response.data.message || "Registration failed.");
       }
     } catch (error) {
       console.error("Registration Error:", error);
-      message.error(error.response?.data?.message || "Registration failed. Please try again.");
+      alert(error.response?.data?.message || "Registration failed. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <motion.div initial="hidden" animate="visible" variants={fadeIn} className="auth-container">
-      <Card className="form-container">
-        <Row gutter={[24, 24]} align="middle">
-          <Col xs={24} md={12}>
-            <div className="form-section">
-              <Typography.Title level={3} className="title">Create an Account</Typography.Title>
-              <Typography.Text type="secondary" className="slogan">Join for exclusive access!</Typography.Text>
-              <Form layout="vertical" onFinish={handleRegister} autoComplete="off">
-                <Row gutter={12}>
-                  <Col span={12}>
-                    <Form.Item
-                      label="First Name"
-                      name="firstName"
-                      rules={[
-                        { required: true, message: "First name is required!" },
-                        { pattern: nameRegex, message: "Enter a valid first name (only letters & spaces)" },
-                      ]}
-                    >
-                      <Input size="large" placeholder="John" />
-                    </Form.Item>
-                  </Col>
-                  <Col span={12}>
-                    <Form.Item
-                      label="Last Name"
-                      name="lastName"
-                      rules={[
-                        { required: true, message: "Last name is required!" },
-                        { pattern: nameRegex, message: "Enter a valid last name (only letters & spaces)" },
-                      ]}
-                    >
-                      <Input size="large" placeholder="Doe" />
-                    </Form.Item>
-                  </Col>
-                </Row>
-
-                <Form.Item
-                  label="Email"
-                  name="email"
-                  rules={[
-                    { required: true, message: "Email is required!" },
-                    { pattern: emailRegex, message: "Enter a valid email address!" },
-                  ]}
-                >
-                  <Input size="large" placeholder="example@mail.com" />
-                </Form.Item>
-
-                {/* 👇 Restored "City" field below Email and aligned it with Phone */}
-                <Row gutter={12}>
-                  <Col span={12}>
-                    <Form.Item
-                      label="City"
-                      name="city"
-                      rules={[{ required: true, message: "City is required!" }]}
-                    >
-                      <Input size="large" placeholder="Enter your city" />
-                    </Form.Item>
-                  </Col>
-                  <Col span={12}>
-                    <Form.Item
-                      label="Phone"
-                      name="phone"
-                      rules={[
-                        { required: true, message: "Phone number is required!" },
-                        { pattern: phoneRegex, message: "Enter a valid 10-digit phone number!" },
-                      ]}
-                    >
-                      <Input size="large" placeholder="9876543210" />
-                    </Form.Item>
-                  </Col>
-                </Row>
-
-                <Form.Item
-                  label="Password"
-                  name="password"
-                  rules={[
-                    { required: true, message: "Password is required!" },
-                    { pattern: passwordRegex, message: "Must be 8-20 chars, 1 uppercase, 1 number, 1 special char" },
-                  ]}
-                >
-                  <Input.Password size="large" placeholder="********" />
-                </Form.Item>
-
-                <Form.Item>
-                  <Button htmlType="submit" size="large" className="btn" loading={loading} block>
-                    Create Account
-                  </Button>
-                </Form.Item>
-
-                <Typography.Text className="text-center">
-                  Already have an account?{" "}
-                  <Link to="/login">
-                    <Button type="link">Sign In</Button>
-                  </Link>
-                </Typography.Text>
-              </Form>
-            </div>
-          </Col>
-
-          <Col xs={24} md={12} className="image-section">
+    <motion.div initial="hidden" animate="visible" variants={fadeIn} className="flex items-center justify-center h-screen w-screen bg-amber-300 p-4">
+      <div className="w-full max-w-4xl bg-white p-8 rounded-xl shadow-lg">
+        <div className="flex flex-wrap gap-4">
+          {/* Form Section */}
+          <div className="flex-1 min-w-[300px]">
+            <h3 className="text-2xl font-semibold text-center mb-2">Create an Account</h3>
+            <p className="text-gray-600 text-center mb-6">Join for exclusive access!</p>
+            <form className="space-y-5" onSubmit={(e) => { e.preventDefault(); handleRegister(Object.fromEntries(new FormData(e.target))); }} autoComplete="off">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-gray-700 font-medium mb-1">First Name</label>
+                  <input name="firstName" className="w-full p-3 border rounded-lg" placeholder="John" required pattern="[A-Za-z\s'-]{2,}" title="Name cannot start with a number and must be at least 2 characters long." />
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-medium mb-1">Last Name</label>
+                  <input name="lastName" className="w-full p-3 border rounded-lg" placeholder="Doe" required pattern="[A-Za-z\s'-]{2,}" title="Name cannot start with a number and must be at least 2 characters long." />
+                </div>
+              </div>
+              <div>
+                <label className="block text-gray-700 font-medium mb-1">Email</label>
+                <input name="email" type="email" className="w-full p-3 border rounded-lg" placeholder="example@mail.com" required pattern="[^\s@]+@[^\s@]+\.[^\s@]+" title="Enter a valid email address." />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-gray-700 font-medium mb-1">City</label>
+                  <input name="city" className="w-full p-3 border rounded-lg" placeholder="Enter your city" required />
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-medium mb-1">Phone</label>
+                  <input name="phone" type="tel" className="w-full p-3 border rounded-lg" placeholder="9876543210" required pattern="[6-9]\d{9}" title="Enter a valid 10-digit phone number." />
+                </div>
+              </div>
+              <div>
+                <label className="block text-gray-700 font-medium mb-1">Password</label>
+                <input name="password" type="password" className="w-full p-3 border rounded-lg" placeholder="********" required pattern="(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}" title="Password must be 8-20 characters, include at least one uppercase letter, one number, and one special character." />
+              </div>
+              <button type="submit" className="w-full bg-blue-500 text-black py-3 rounded-lg hover:bg-blue-600 transition" disabled={loading}>
+                {loading ? "Creating Account..." : "Create Account"}
+              </button>
+              <p className="text-center mt-4">
+                Already have an account? <Link to="/login" className="text-blue-500 hover:underline">Sign In</Link>
+              </p>
+            </form>
+          </div>
+          {/* Image Section */}
+          <div className="flex-1 min-w-[300px] flex justify-center items-center">
             <motion.img
               src={registerImage}
-              className="auth-image"
+              className="w-full max-w-xs rounded-lg object-cover"
               alt="Register"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
             />
-          </Col>
-        </Row>
-      </Card>
+          </div>
+        </div>
+      </div>
     </motion.div>
   );
 };
