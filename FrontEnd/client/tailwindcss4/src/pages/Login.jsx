@@ -28,11 +28,11 @@ const Login = () => {
       });
 
       if (response.status === 200) {
-        alert("Login successful! Redirecting...");
+        // alert("Login successful! Redirecting...");
         localStorage.setItem("Authorization","Bearer " + response.data.token);
         localStorage.setItem("userId", response.data.userId);
         localStorage.setItem("roles", JSON.stringify(response.data.roles));
-        setTimeout(() => navigate("/"), 2000);
+        setTimeout(() => navigate("/"), 1000);
       } else {
         throw new Error(response.data.message || "Login failed.");
       }
