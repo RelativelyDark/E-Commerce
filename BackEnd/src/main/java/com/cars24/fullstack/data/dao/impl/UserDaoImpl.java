@@ -64,6 +64,9 @@ public class UserDaoImpl implements UserDao {
         if(userUpdateRequest.getPhone().length() != 0)
             userEntity.setPhone(userUpdateRequest.getPhone());
 
+        if(userUpdateRequest.getCity().length() != 0)
+            userEntity.setCity(userUpdateRequest.getCity());
+
         userRepository.save(userEntity);
         System.out.println(userEntity);
 
