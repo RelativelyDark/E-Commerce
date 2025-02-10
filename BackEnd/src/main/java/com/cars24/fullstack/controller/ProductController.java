@@ -41,7 +41,7 @@ public class ProductController {
     }
 
     // Both Admin and Customer can view product details (GET)
-    @PreAuthorize("hasAnyAuthority('ROLE_CUSTOMER', 'ROLE_ADMIN')")
+    //@PreAuthorize("hasAnyAuthority('ROLE_CUSTOMER', 'ROLE_ADMIN')")
     @GetMapping("/get/{id}")
     public ResponseEntity<ApiResponse> getProductById(@PathVariable String id) {
         ApiResponse response = productService.getProductById(id);
@@ -49,14 +49,14 @@ public class ProductController {
     }
 
     // Both Admin and Customer can view all products (GET)
-    @PreAuthorize("hasAnyAuthority('ROLE_CUSTOMER', 'ROLE_ADMIN')")
+//    @PreAuthorize("hasAnyAuthority('ROLE_CUSTOMER', 'ROLE_ADMIN')")
     @GetMapping("/all")
     public ResponseEntity<ApiResponse> getAllProducts() {
         ApiResponse response = productService.getAllProducts();
         return ResponseEntity.ok(response);
     }
 
-    @PreAuthorize("hasAnyAuthority('ROLE_CUSTOMER', 'ROLE_ADMIN')")
+//    @PreAuthorize("hasAnyAuthority('ROLE_CUSTOMER', 'ROLE_ADMIN')")
     @GetMapping("/{category}")
     public ResponseEntity<ApiResponse> getProductByCategory(@PathVariable String category){
         ApiResponse response = productService.getProductByCategory(category);
@@ -64,7 +64,7 @@ public class ProductController {
     }
 
 
-    @PreAuthorize("hasAnyAuthority('ROLE_CUSTOMER', 'ROLE_ADMIN')")
+//    @PreAuthorize("hasAnyAuthority('ROLE_CUSTOMER', 'ROLE_ADMIN')")
     @GetMapping("/categories")
     public ResponseEntity<ApiResponse> getProductCategoryList(){
         ApiResponse response = productService.getProductCategoryList();

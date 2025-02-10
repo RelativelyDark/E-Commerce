@@ -43,46 +43,46 @@ const Register = () => {
   };
 
   return (
-    <motion.div initial="hidden" animate="visible" variants={fadeIn} className="flex items-center justify-center h-screen w-screen bg-amber-300 p-4">
+    <motion.div initial="hidden" animate="visible" variants={fadeIn} className="flex items-center justify-center h-screen w-screen bg-gray-400 p-4">
       <div className="w-full max-w-4xl bg-white p-8 rounded-xl shadow-lg">
         <div className="flex flex-wrap gap-4">
           {/* Form Section */}
           <div className="flex-1 min-w-[300px]">
-            <h3 className="text-2xl font-semibold text-center mb-2">Create an Account</h3>
+            <h3 className="text-black text-2xl font-semibold text-center mb-2">Create an Account</h3>
             <p className="text-gray-600 text-center mb-6">Join for exclusive access!</p>
             <form className="space-y-5" onSubmit={(e) => { e.preventDefault(); handleRegister(Object.fromEntries(new FormData(e.target))); }} autoComplete="off">
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-gray-700 font-medium mb-1">First Name</label>
-                  <input name="firstName" className="w-full p-3 border rounded-lg" placeholder="John" required pattern="[A-Za-z\s'-]{2,}" title="Name cannot start with a number and must be at least 2 characters long." />
+                  <input name="firstName" className="text-black w-full p-3 border rounded-lg" placeholder="John" required pattern="[A-Za-z\s'-]{2,}" title="Name cannot start with a number and must be at least 2 characters long." />
                 </div>
                 <div>
                   <label className="block text-gray-700 font-medium mb-1">Last Name</label>
-                  <input name="lastName" className="w-full p-3 border rounded-lg" placeholder="Doe" required pattern="[A-Za-z\s'-]{2,}" title="Name cannot start with a number and must be at least 2 characters long." />
+                  <input name="lastName" className="text-black w-full p-3 border rounded-lg" placeholder="Doe" required pattern="[A-Za-z\s'-]{2,}" title="Name cannot start with a number and must be at least 2 characters long." />
                 </div>
               </div>
               <div>
                 <label className="block text-gray-700 font-medium mb-1">Email</label>
-                <input name="email" type="email" className="w-full p-3 border rounded-lg" placeholder="example@mail.com" required pattern="[^\s@]+@[^\s@]+\.[^\s@]+" title="Enter a valid email address." />
+                <input name="email" type="email" className="text-black w-full p-3 border rounded-lg" placeholder="example@mail.com" required pattern="[^\s@]+@[^\s@]+\.[^\s@]+" title="Enter a valid email address." />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-gray-700 font-medium mb-1">City</label>
-                  <input name="city" className="w-full p-3 border rounded-lg" placeholder="Enter your city" required />
+                  <input name="city" className="text-black w-full p-3 border rounded-lg" placeholder="Enter your city" required />
                 </div>
                 <div>
                   <label className="block text-gray-700 font-medium mb-1">Phone</label>
-                  <input name="phone" type="tel" className="w-full p-3 border rounded-lg" placeholder="9876543210" required pattern="[6-9]\d{9}" title="Enter a valid 10-digit phone number." />
+                  <input name="phone" type="tel" className="text-black w-full p-3 border rounded-lg" placeholder="9876543210" required pattern="[6-9]\d{9}" title="Enter a valid 10-digit phone number." />
                 </div>
               </div>
               <div>
                 <label className="block text-gray-700 font-medium mb-1">Password</label>
-                <input name="password" type="password" className="w-full p-3 border rounded-lg" placeholder="********" required pattern="(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}" title="Password must be 8-20 characters, include at least one uppercase letter, one number, and one special character." />
+                <input name="password" type="password" className="text-black w-full p-3 border rounded-lg" placeholder="********" required pattern="(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}" title="Password must be 8-20 characters, include at least one uppercase letter, one number, and one special character." />
               </div>
-              <button type="submit" className="w-full bg-blue-500 text-black py-3 rounded-lg hover:bg-blue-600 transition" disabled={loading}>
+              <button type="submit" className="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition" disabled={loading}>
                 {loading ? "Creating Account..." : "Create Account"}
               </button>
-              <p className="text-center mt-4">
+              <p className="text-black text-center mt-4">
                 Already have an account? <Link to="/login" className="text-blue-500 hover:underline">Sign In</Link>
               </p>
             </form>

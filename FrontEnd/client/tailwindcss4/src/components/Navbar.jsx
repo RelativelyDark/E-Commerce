@@ -73,7 +73,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="bg-amber-300 py-4 px-6 flex justify-between items-center fixed top-0 w-full z-50">
+    <div className="bg-gray-400 py-4 px-6 flex justify-between items-center fixed top-0 w-full z-50">
       <Link to="/" className="flex items-center gap-2">
         <img
           src={noExcuseLogo}
@@ -96,12 +96,12 @@ const Navbar = () => {
         />
 
         {showDropdown && filteredCategories.length > 0 && (
-          <ul className="absolute top-full bg-amber-300 text-black rounded-lg shadow-lg mt-1 max-h-60 overflow-auto">
+          <ul className="absolute top-full bg-white text-black rounded-lg shadow-lg mt-1 max-h-60 overflow-auto">
             {filteredCategories.map((category, index) => (
               <li
                 key={index}
                 className={`px-4 py-2 cursor-pointer ${
-                  highlightedIndex === index ? "bg-orange-300" : "hover:bg-orange-400"
+                  highlightedIndex === index ? "bg-gray-300" : "hover:bg-gray-400"
                 }`}
                 onMouseDown={() => handleSelectCategory(category)} 
                 onMouseEnter={() => setHighlightedIndex(index)} 
