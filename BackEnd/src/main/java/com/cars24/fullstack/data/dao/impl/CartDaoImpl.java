@@ -9,6 +9,7 @@ import com.cars24.fullstack.data.request.UpdateCartRequest;
 import com.cars24.fullstack.data.response.CreateCartResponse;
 import com.cars24.fullstack.data.response.DeleteCartResponse;
 import com.cars24.fullstack.data.response.GetCartResponse;
+import org.bson.types.ObjectId;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,12 +27,28 @@ public class CartDaoImpl {
 
     public CreateCartResponse createCart(CreateCartRequest createCartRequest){
 
-        CartEntity cartEntity = new CartEntity();
-        cartEntity.setQuantity(createCartRequest.getQuantity());
-        cartEntity.setCustomerid(createCartRequest.getCustomerid());
-        cartEntity.setProductid(createCartRequest.getProductid());
+        if(cartRepository.existsByProductidAndCustomerid(createCartRequest.getProductid(),createCartRequest.getCustomerid())){
 
-        cartRepository.save(cartEntity);
+            CartEntity cartEntity = new CartEntity();
+            cartEntity = cartRepository.findByProductidAndCustomerid(createCartRequest.getProductid(),createCartRequest.getCustomerid());
+            ObjectId id = cartEntity.get_id();
+            int quant = cartEntity.getQuantity();
+
+            cartEntity.setQuantity(quant+1);
+
+            cartRepository.save(cartEntity);
+
+        }
+        else {
+
+            CartEntity cartEntity = new CartEntity();
+            cartEntity.setQuantity(createCartRequest.getQuantity());
+            cartEntity.setCustomerid(createCartRequest.getCustomerid());
+            cartEntity.setProductid(createCartRequest.getProductid());
+
+            cartRepository.save(cartEntity);
+
+        }
 
         CreateCartResponse createCartResponse = new CreateCartResponse();
         createCartResponse.setCustomerid(createCartRequest.getCustomerid());
