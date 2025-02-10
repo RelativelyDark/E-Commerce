@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
 @RequestMapping("/users")
 @Service
-
 public class UserController {
 
     @Autowired
@@ -41,20 +41,23 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public SignUpResponse createUser(@RequestBody SignUpRequest signUpRequest){
-
-        log.info("[createUser] UserController{}", signUpRequest);
+    public ResponseEntity<Map<String, String>> createUser(@RequestBody SignUpRequest signUpRequest) {
+        log.info("[createUser] UserController {}", signUpRequest);
 
         UserDto userDto = new UserDto();
-        SignUpResponse signUpResponse = new SignUpResponse();
-
         BeanUtils.copyProperties(signUpRequest, userDto);
 
         UserDto createdUser = userService.createUser(userDto);
-        BeanUtils.copyProperties(createdUser, signUpResponse);
 
-        return signUpResponse;
+        if (createdUser != null) {
+            // Return a success message with HTTP 201 Created status
+            return ResponseEntity.status(201).body(Map.of("message", "Signup successful!"));
+        } else {
+            // Return an error message with HTTP 400 Bad Request status
+            return ResponseEntity.status(400).body(Map.of("message", "Signup failed!"));
+        }
     }
+
 
 
     @PutMapping("/edit/{id}")

@@ -1,5 +1,4 @@
 package com.cars24.fullstack.security;
-
 import com.cars24.fullstack.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -79,5 +78,4 @@ public class WebSecurity {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
 }
