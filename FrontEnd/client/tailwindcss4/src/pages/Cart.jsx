@@ -130,8 +130,8 @@ const Cart = () => {
   return (
     <div className="flex flex-col md:flex-row justify-between pt-40 pl-10 pb-30 pr-10 gap-6">
       <div className="flex-1 bg-white p-1 shadow-lg rounded-lg h-[500px] w-2 overflow-y-auto">
-        <h2 className="text-xl font-semibold mb-4">Shopping Cart</h2>
-        <div className="space-y-4">
+        <h2 className="text-black text-xl pt-5 pl-80 font-semibold mb-4">Shopping Cart</h2>
+        <div className="space-y-4 p-4">
           {cartItems.map((item) => (
             <CartCard 
               key={item.productid} 
@@ -146,7 +146,7 @@ const Cart = () => {
       <div className="w-full md:w-1/3 bg-gray-100 p-6 rounded-lg shadow-lg">
         <h2 className="text-xl font-semibold mb-4 text-black">Order Summary</h2>
         <p className="text-lg font-medium text-black">Total: ${totalAmount.toFixed(2)}</p>
-        <button className="w-full mt-4 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+        <button className="w-full mt-4 !bg-green-700 text-white py-2 rounded-lg hover:!bg-green-900 transition">
           Place Order
         </button>
       </div>

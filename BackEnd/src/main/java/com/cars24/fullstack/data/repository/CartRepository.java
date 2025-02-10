@@ -14,5 +14,6 @@ public interface CartRepository extends MongoRepository<CartEntity,ObjectId> {
     List<CartEntity> findByCustomerid(String Customer_id);
     Boolean existsByProductid(String Product_id);
     Boolean existsByCustomerid(String Customer_id);
+    Boolean existsByProductidAndCustomerid(String Product_id, String Customer_id);
 
 }
