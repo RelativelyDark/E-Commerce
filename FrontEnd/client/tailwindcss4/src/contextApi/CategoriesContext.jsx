@@ -5,16 +5,16 @@ export const CategoriesContext = createContext();
 export const CategoriesProvider = ({ children }) => {
     const [categories, setCategories] = useState([]);
 
-    const token = localStorage.getItem("Authorization");
+    // const token = localStorage.getItem("Authorization");
 
     const fetchCategories = async () => {
         try {
             const resp = await fetch(`http://localhost:8080/product/categories`, {
                 method: "GET",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                },
+                // headers: {
+                //     Authorization: `Bearer ${token}`,
+                //     "Content-Type": "application/json",
+                // },
             });
 
             if (!resp.ok) throw new Error("Failed to fetch categories");

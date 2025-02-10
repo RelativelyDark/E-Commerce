@@ -27,7 +27,7 @@ export default function App() {
             element={
               <>
                 <Navbar />
-                <main className="flex-grow bg-amber-300">
+                <main className="flex-grow bg-gray-100">
                   <Routes>
                     <Route path="/" element={<Home />} /> {/* Redirect to Register first */}
                     <Route path="/products" element={<Products />} />
