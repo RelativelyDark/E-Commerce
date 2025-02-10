@@ -46,12 +46,12 @@ public class WebSecurity {
                 .authorizeHttpRequests(authz -> authz
                         // Public endpoints
                         .requestMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll()
-                        .requestMatchers(HttpMethod.GET, "/products").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/product/**").permitAll()
 
                         // Admin-only endpoints
-                        .requestMatchers(HttpMethod.POST, "/products/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/products/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/products/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/product/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/product/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/product/**").hasRole("ADMIN")
 
                         .requestMatchers("/feedback/**").authenticated()
 
