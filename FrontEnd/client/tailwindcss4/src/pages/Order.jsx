@@ -1,78 +1,82 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 
 const OrderHistory = () => {
   const [orders, setOrders] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
+  const userid =    localStorage.getItem("userId"); // Replace with dynamic user ID if needed
+
+  const fetchOrders = async () => {
+    if (!userid) {
+      console.error("User ID not found.");
+      return;
+    }
+
+    const token = localStorage.getItem("Authorization");
+
+    try {
+      // Step 1: Fetch orders for the customer
+      const response = await fetch(`http://localhost:8080/orders/${userid}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch orders. Status: ${response.status}`);
+      }
+
+      const ordersData = await response.json();
+
+      // Step 2: Fetch product details for each order item
+      const ordersWithProducts = await Promise.all(
+        ordersData.map(async (order) => {
+          const productResponse = await fetch(
+            `http://localhost:8080/product/get/${order.productid}`,
+            {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+            }
+          );
+
+          if (!productResponse.ok) {
+            throw new Error(`Failed to fetch product for ID: ${order.productid}`);
+          }
+
+          const productData = await productResponse.json();
+
+          return { ...productData.data, quantity: order.quantity };
+        })
+      );
+
+      setOrders(ordersWithProducts);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchOrders = async () => {
-      const mockOrders = [
-        {
-          id: 1,
-          productName: "Wireless Headphones",
-          description: "High-quality wireless headphones with noise cancellation.",
-          price: 99.99,
-          quantity: 1,
-          image: "https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6029/6029025_rd.jpg",
-        },
-        {
-          id: 2,
-          productName: "Smart Watch",
-          description: "Latest model smart watch with multiple features.",
-          price: 199.99,
-          quantity: 2,
-          image: "https://i5.walmartimages.com/asr/e1ae90b2-98da-443b-888c-a71228c5234e.eb10d07052b374f38aa17166043f5a7a.jpeg?odnWidth=1000&odnHeight=1000&odnBg=ffffff",
-        },
-        {
-          id: 3,
-          productName: "Bluetooth Speaker",
-          description: "Portable Bluetooth speaker with excellent sound quality.",
-          price: 49.99,
-          quantity: 3,
-          image: "https://th.bing.com/th/id/OIP.g-IXaRH2deMRDkasq9BDFQHaHa?rs=1&pid=ImgDetMain",
-        },
-      ];
-      setTimeout(() => setOrders(mockOrders), 500);
-    };
-
     fetchOrders();
   }, []);
 
-  // Filter orders based on search input
-  const filteredOrders = useMemo(() => {
-    if (!searchTerm) return orders;
-    return orders.filter(
-      (order) =>
-        order.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        order.description.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }, [orders, searchTerm]);
-
   return (
     <div className="w-full min-h-screen bg-gray-50 flex flex-col items-center p-6">
-      {/* Header */}
+      {/* Page Title */}
       <h1 className="text-4xl font-bold text-gray-800 mt-20 mb-6">Order History</h1>
 
-      {/* Search Bar */}
-      <input
-  type="text"
-  placeholder="Search orders..."
-  className="w-full max-w-lg p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-300 transition-all duration-200 shadow-sm text-black placeholder-gray-500"
-  value={searchTerm}
-  onChange={(e) => setSearchTerm(e.target.value)}
-/>
-
-
       {/* Orders List */}
-      <div className="w-full max-w-6xl mt-6 bg-white rounded-lg shadow-lg p-4">
-        {filteredOrders.length > 0 ? (
-          filteredOrders.map((order) => (
+      <div className="w-full max-w-6xl bg-white rounded-lg shadow-lg p-4">
+        {orders.length > 0 ? (
+          orders.map((order) => (
             <div
               key={order.id}
               className="flex flex-col md:flex-row items-center p-4 border-b last:border-b-0 hover:bg-gray-100 transition-colors duration-200 rounded-md"
             >
               <img
-                src={order.image}
+                src={order.image || "https://via.placeholder.com/150"}
                 alt={order.productName}
                 className="w-24 h-24 object-cover rounded-lg md:mr-4"
               />
