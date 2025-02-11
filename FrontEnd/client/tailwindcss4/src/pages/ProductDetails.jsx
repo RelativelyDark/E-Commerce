@@ -40,7 +40,7 @@ const ProductDetails = () => {
   
       if (!token) throw new Error("User not logged in");
   
-      const response = await fetch("http://localhost:8080/users/display/${id}", {  // Replace with correct endpoint
+      const response = await fetch("http://localhost:8080/users/display/${id}", { 
         headers: {
           "Authorization": token,  // Ensure correct token usage
           "Content-Type": "application/json",
