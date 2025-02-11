@@ -50,4 +50,11 @@ public class FeedbackController {
         return ResponseEntity.ok("Feedback deleted successfully");
     }
 
+    @GetMapping("/product/get/{productId}")
+    public ResponseEntity<List<FeedbackDto>> getReviewsByProductId(@PathVariable String productId) {
+        log.info("[getReviewsByProductId] Fetching feedback for productId: {}", productId);
+        List<FeedbackDto> reviews = feedbackService.getReviewsByProductId(productId);
+        return ResponseEntity.ok(reviews);
+    }
+
 }

@@ -6,6 +6,8 @@ import { Home, Profile, Cart, Order, Products } from "./pages";
 import ProductDetails from "./pages/ProductDetails";
 import { CategoriesProvider } from "./contextApi/CategoriesContext";
 
+import ReviewPage from "./pages/ReviewPage";
+
 // Import Login & Register pages
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -31,7 +33,8 @@ export default function App() {
                   <Routes>
                     <Route path="/" element={<Home />} /> {/* Redirect to Register first */}
                     <Route path="/products" element={<Products />} />
-                    <Route path="/product-details/:id" element={<ProductDetails />} />
+                    <Route path="/product/get/:id" element={<ProductDetails />} />
+                    <Route path="/reviews/:productId" element={<ReviewPage />} />
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/order" element={<Order />} />
                     <Route path="/profile" element={<Profile />} />
@@ -43,6 +46,6 @@ export default function App() {
           />
         </Routes>
       </BrowserRouter>
-    </CategoriesProvider>
+     </CategoriesProvider>
   );
 }

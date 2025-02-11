@@ -41,4 +41,9 @@ public class FeedbackServiceImpl implements FeedbackService {
     public void deleteFeedback(String id) {
         feedbackDao.deleteFeedback(id);
     }
+
+    @Override
+    public List<FeedbackDto> getReviewsByProductId(String productId) {
+        return feedbackDao.getReviewsByProductId(productId);  // Fetch reviews based on productId
+    }
 }

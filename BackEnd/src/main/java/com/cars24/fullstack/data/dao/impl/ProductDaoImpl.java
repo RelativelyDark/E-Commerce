@@ -1,15 +1,19 @@
 package com.cars24.fullstack.data.dao.impl;
 
 import com.cars24.fullstack.data.dao.ProductDao;
+import com.cars24.fullstack.data.dto.ProductDto;
+import com.cars24.fullstack.data.dto.UserDto;
 import com.cars24.fullstack.data.entity.ProductEntity;
 import com.cars24.fullstack.data.repository.ProductRepository;
-import com.cars24.fullstack.data.response.ApiResponse;
 import com.cars24.fullstack.exception.ProductNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
+@Slf4j
 @Repository
 @RequiredArgsConstructor
 public class ProductDaoImpl implements ProductDao {
@@ -47,8 +51,28 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public Optional<ProductEntity> getProductById(String id) {
-        return productRepository.findById(id);
+    public ProductDto getProductById(String id) {
+        Optional<ProductEntity> pe = productRepository.findById(id);
+        log.info(String.valueOf(pe));
+        //ProductDto productDto = new ProductDto();
+
+
+        // Check if the product is present
+        if (pe.isPresent()) {
+            ProductEntity productEntity = pe.get();  // Unwrap the Optional
+
+            // Create a new ProductDto and copy properties from ProductEntity
+            ProductDto productDto = new ProductDto();
+            BeanUtils.copyProperties(productEntity, productDto);
+
+            System.out.println(productDto);  // To verify the mapping
+
+            return productDto;
+        } else {
+            // Handle the case where the product is not found
+            log.error("Product not found with ID: " + id);
+            return new ProductDto();  // Return an empty ProductDto or handle as necessary
+        }
     }
 
     @Override

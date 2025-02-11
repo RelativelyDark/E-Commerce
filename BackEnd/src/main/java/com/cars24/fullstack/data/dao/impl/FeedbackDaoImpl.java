@@ -73,4 +73,18 @@ public class FeedbackDaoImpl implements FeedbackDao {
     public void deleteFeedback(String id) {
         feedbackRepository.deleteById(id);
     }
+
+    @Override
+    public List<FeedbackDto> getReviewsByProductId(String productId) {
+        // Query the repository for feedbacks based on the productId
+        return feedbackRepository.findByProductId(productId).stream()
+                .map(entity -> {
+                    // Map FeedbackEntity to FeedbackDto
+                    FeedbackDto dto = new FeedbackDto();
+                    BeanUtils.copyProperties(entity, dto);
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
 }

@@ -48,12 +48,16 @@ public class WebSecurity {
                         .requestMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll()
                         .requestMatchers(HttpMethod.GET, "/product/**").permitAll()
 
-//                        // Admin-only endpoints
-//                        .requestMatchers(HttpMethod.POST, "/product/**").hasRole("ADMIN")
-//                        .requestMatchers(HttpMethod.PUT, "/product/**").hasRole("ADMIN")
-//                        .requestMatchers(HttpMethod.DELETE, "/product/**").hasRole("ADMIN")
+                        // Admin-only endpoints
+                        .requestMatchers(HttpMethod.POST, "/product/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/product/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/product/**").hasRole("ADMIN")
 
-                        .requestMatchers("/feedback/**").authenticated()
+                                .requestMatchers(HttpMethod.GET, "/feedback/product/get/**").permitAll()
+
+                                .requestMatchers(HttpMethod.POST, "/feedback/**").permitAll()
+
+                                .requestMatchers("/feedback/**").authenticated()
 
                         // All other requests must be authenticated
                         .anyRequest().authenticated()
