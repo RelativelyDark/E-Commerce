@@ -8,17 +8,17 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // const token = localStorage.getItem("Authorization");
+  const token = localStorage.getItem("Authorization");
 
   // Fetch all products
   const fetchProducts = async () => {
     try {
       const resp = await fetch(`http://localhost:8080/product/all`, {
         method: "GET",
-        // headers: {
-        //   Authorization: `Bearer ${token}`,
-        //   "Content-Type": "application/json",
-        // },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       });
 
       if (!resp.ok) throw new Error("Failed to fetch all products");

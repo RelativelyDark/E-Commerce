@@ -1,7 +1,9 @@
 package com.cars24.fullstack.service.impl;
 
 import com.cars24.fullstack.data.dao.ProductDao;
+import com.cars24.fullstack.data.dto.ProductDto;
 import com.cars24.fullstack.data.entity.ProductEntity;
+import com.cars24.fullstack.data.repository.ProductRepository;
 import com.cars24.fullstack.data.request.ProductRequest;
 import com.cars24.fullstack.data.response.ApiResponse;
 import com.cars24.fullstack.exception.ProductNotFoundException;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +22,7 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductDao productDao;  // Using DAO instead of directly using repository
 
+    private final ProductRepository productRepository;
     // Get all products
     @Override
     public ApiResponse getAllProducts() {
@@ -66,19 +70,30 @@ public class ProductServiceImpl implements ProductService {
     // Get a single product by ID
     @Override
     public ApiResponse getProductById(String id) {
-        ProductEntity product = productDao.getProductById(id)
-                .orElseThrow(() -> new ProductNotFoundException("Product not found"));
 
-        // Create ApiResponse with the product data
+        System.out.println("Fetching product with ID: " + id);
+
+        boolean valid = productRepository.existsById(id);
+
+        if (!valid) {
+            System.out.println("Product NOT found for ID: " + id);
+            return null;
+        }
+
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setStatuscode(HttpStatus.OK.value());
         apiResponse.setSuccess(true);
-        apiResponse.setMessage("Product retrieved successfully");
+        apiResponse.setMessage("All products retrieved successfully");
         apiResponse.setService("AppProduct " + HttpStatus.OK.value());
-        apiResponse.setData(product);
+        apiResponse.setData(productDao.getProductById(id));
+        System.out.println(productDao.getProductById(id));
+
 
         return apiResponse;
     }
+
+
+
 
     // Add a new product
     @Override

@@ -11,4 +11,5 @@ public interface FeedbackDao {
     Optional<FeedbackDto> getFeedbackById(String id);
     FeedbackDto updateFeedback(String id, FeedbackDto feedbackDto);
     void deleteFeedback(String id);
+    List<FeedbackDto> getReviewsByProductId(String productId);
 }
