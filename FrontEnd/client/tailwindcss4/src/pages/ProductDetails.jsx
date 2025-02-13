@@ -13,6 +13,47 @@ const ProductDetails = () => {
   const [feedback, setFeedback] = useState("");
   const [submitError, setSubmitError] = useState("");
   const [submitSuccess, setSubmitSuccess] = useState("");
+  const [reqBody, setReqBody] = useState({});
+
+  const addToCart = async (id) => {
+    try {
+      const token = localStorage.getItem("Authorization");
+      if (!token) {
+        console.error("No authorization token found");
+        navigate("/login");
+      }
+
+      const userId = localStorage.getItem("userId");
+      const productId = id;
+
+      console.log("userId:", userId);
+      console.log("productId:", productId);
+
+      const newReqBody = {
+        productid: productId,
+        customerid: userId,
+        quantity: 1,
+      };
+      setReqBody(newReqBody);
+
+      const resp = await fetch(`http://localhost:8080/cart`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newReqBody),
+      });
+
+      if (!resp.ok) throw new Error("Failed to add item to cart");
+
+      console.log("Item added successfully"); 
+      navigate("/cart");
+    } catch (error) {
+      console.error("Error adding items to cart", error);
+    }
+  };
+
 
   useEffect(() => {
     fetch(`http://localhost:8080/product/get/${id}`)
@@ -132,7 +173,7 @@ const ProductDetails = () => {
 
           <div className="flex gap-2">
             <button className="bg-blue-500 text-black px-4 py-2 rounded">Buy Now</button>
-            <button className="bg-gray-300 px-4 py-2 rounded">Add to Cart</button>
+            <button className="bg-gray-300 px-4 py-2 rounded" onClick={() => addToCart(product.id)}>Add to Cart</button>
             <button 
               onClick={() => navigate(`/reviews/${product.id}?productName=${encodeURIComponent(product.name)}`)}
               className="bg-gray-200 px-3 py-2 rounded"
