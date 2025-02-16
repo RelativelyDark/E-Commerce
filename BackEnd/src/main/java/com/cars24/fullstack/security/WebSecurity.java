@@ -41,7 +41,7 @@ public class WebSecurity {
         AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManager);
         authenticationFilter.setFilterProcessesUrl("/users/login");
 
-        http.csrf(csrf -> csrf.disable())
+        HttpSecurity httpSecurity = http.csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Enable CORS
                 .authorizeHttpRequests(authz -> authz
                         // Public endpoints
@@ -53,11 +53,11 @@ public class WebSecurity {
                         .requestMatchers(HttpMethod.PUT, "/product/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/product/**").hasRole("ADMIN")
 
-                                .requestMatchers(HttpMethod.GET, "/feedback/product/get/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/feedback/product/get/**").permitAll()
 
-                                .requestMatchers(HttpMethod.POST, "/feedback/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/feedback/**").permitAll()
 
-                                .requestMatchers("/feedback/**").authenticated()
+                        .requestMatchers("/feedback/**").authenticated()
 
                         // All other requests must be authenticated
                         .anyRequest().authenticated()

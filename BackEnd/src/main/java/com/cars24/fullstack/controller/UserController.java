@@ -1,6 +1,7 @@
 package com.cars24.fullstack.controller;
 
 import com.cars24.fullstack.data.dto.UserDto;
+import com.cars24.fullstack.data.entity.UserEntity;
 import com.cars24.fullstack.data.request.SignUpRequest;
 import com.cars24.fullstack.data.request.UserUpdateRequest;
 import com.cars24.fullstack.data.response.GetUserResponse;
@@ -9,6 +10,7 @@ import com.cars24.fullstack.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +27,16 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    @GetMapping("/display")
+    public ResponseEntity<?> getUserByUserId(@RequestParam String userId) {
+        UserEntity user = userService.getUserByUserId(userId);
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+    }
 
     @GetMapping(path = "/display/{id}")
     public GetUserResponse getUser(@PathVariable("id") String id){
