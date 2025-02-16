@@ -167,4 +167,8 @@ public class UserServiceImpl implements UserService {
 
         return users;
     }
+
+    public UserEntity getUserByUserId(String userId) {
+        return userRepository.findByUserId(userId);
+    }
 }

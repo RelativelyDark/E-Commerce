@@ -14,7 +14,7 @@ public interface UserRepository extends MongoRepository<UserEntity, String>, Pag
 
     UserEntity findByEmail(String email);
 
-    UserEntity findByUserId(String id);
+    //UserEntity findByUserId(String id);
 
     boolean existsByUserId(String id);
 
@@ -22,4 +22,5 @@ public interface UserRepository extends MongoRepository<UserEntity, String>, Pag
 
     Page<UserEntity> findAll(Pageable pageable);
 
+    UserEntity findByUserId(String userId);
 }

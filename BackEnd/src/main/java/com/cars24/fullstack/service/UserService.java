@@ -1,6 +1,7 @@
 package com.cars24.fullstack.service;
 
 import com.cars24.fullstack.data.dto.UserDto;
+import com.cars24.fullstack.data.entity.UserEntity;
 import com.cars24.fullstack.data.request.UserUpdateRequest;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -16,4 +17,6 @@ public interface UserService extends UserDetailsService {
     UserDto deleteUser(String id);
 
     List<UserDto> getAllUsers(int page, int limit);
+
+    UserEntity getUserByUserId(String userId);
 }
