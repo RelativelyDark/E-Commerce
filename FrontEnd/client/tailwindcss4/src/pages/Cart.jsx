@@ -85,7 +85,6 @@ const Cart = () => {
       }
 
       console.log(`Updated product ${productid} to quantity ${quantity}`);
-
       // Refresh cart items after update
       fetchCartItems();
     } catch (error) {
@@ -125,6 +124,66 @@ const Cart = () => {
     }
   };
 
+  const placeOrder = async () => {
+    const token = localStorage.getItem("Authorization");
+  
+    try {
+      // Place orders for each cart item
+      await Promise.all(
+        cartItems.map(async (item) => {
+          const response = await fetch(`http://localhost:8080/orders`, {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              userid: customerId,
+              productid: item.productid,
+              quantity: item.quantity,
+              orderDate: new Date().toISOString().split("T")[0], // Format: YYYY-MM-DD
+            }),
+          });
+  
+          if (!response.ok) {
+            throw new Error(`Failed to place order for product ${item.productid}`);
+          }
+        })
+      );
+  
+      console.log("All orders placed successfully.");
+  
+      // Delete all items from cart after placing the order
+      await Promise.all(
+        cartItems.map(async (item) => {
+          const deleteResponse = await fetch(`http://localhost:8080/cart`, {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              customerid: customerId,
+              productid: item.productid,
+            }),
+          });
+  
+          if (!deleteResponse.ok) {
+            throw new Error(`Failed to delete cart item ${item.productid}`);
+          }
+        })
+      );
+  
+      console.log("Cart cleared after order placement.");
+      
+      // Refresh cart items after placing the order
+      fetchCartItems();
+    } catch (error) {
+      console.error("Error placing order:", error);
+    }
+  };
+  
+
   const totalAmount = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
@@ -146,7 +205,10 @@ const Cart = () => {
       <div className="w-full md:w-1/3 bg-gray-100 p-6 rounded-lg shadow-lg">
         <h2 className="text-xl font-semibold mb-4 text-black">Order Summary</h2>
         <p className="text-lg font-medium text-black">Total: ${totalAmount.toFixed(2)}</p>
-        <button className="w-full mt-4 !bg-green-700 text-white py-2 rounded-lg hover:!bg-green-900 transition">
+        <button 
+          onClick={placeOrder} 
+          className="w-full mt-4 !bg-green-700 text-white py-2 rounded-lg hover:!bg-green-900 transition"
+        >
           Place Order
         </button>
       </div>

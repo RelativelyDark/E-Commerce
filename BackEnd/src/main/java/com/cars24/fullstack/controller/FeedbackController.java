@@ -29,13 +29,11 @@ public class FeedbackController {
 
     @GetMapping
     public ResponseEntity<List<FeedbackDto>> getAllFeedback() {
-
         return ResponseEntity.ok(feedbackService.getAllFeedback());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Optional<FeedbackDto>> getFeedbackById(@PathVariable String id) {
-
         return ResponseEntity.ok(feedbackService.getFeedbackById(id));
     }
 
