@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import axios from "axios";
+import { Eye, EyeOff } from "lucide-react"; // Importing icons
 import loginImage from "../assets/noExcuseLogo.jpg";
 
 const fadeIn = {
@@ -12,8 +13,8 @@ const fadeIn = {
 const Login = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "" });
-
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -28,8 +29,7 @@ const Login = () => {
       });
 
       if (response.status === 200) {
-        // alert("Login successful! Redirecting...");
-        localStorage.setItem("Authorization","Bearer " + response.data.token);
+        localStorage.setItem("Authorization", "Bearer " + response.data.token);
         localStorage.setItem("userId", response.data.userId);
         localStorage.setItem("roles", JSON.stringify(response.data.roles));
         setTimeout(() => navigate("/"), 1000);
@@ -75,22 +75,32 @@ const Login = () => {
                 />
               </div>
 
-              <div>
+              {/* Password with Show/Hide Toggle */}
+              <div className="relative">
                 <label className="block text-gray-700">Password</label>
-                <input
-                  type="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  className="text-black w-full p-2 border border-gray-300 rounded-lg"
-                  placeholder="********"
-                  required
-                />
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    className="text-black w-full p-2 border border-gray-300 rounded-lg pr-12"
+                    placeholder="********"
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
+                  </button>
+                </div>
               </div>
 
               <button
                 type="submit"
-                className="w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition"
+                className="w-full bg-blue-500 text-black p-2 rounded-lg hover:bg-blue-600 transition"
                 disabled={loading}
               >
                 {loading ? "Logging in..." : "Log In"}
